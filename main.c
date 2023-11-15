@@ -22,7 +22,6 @@ int main(int ac, char **av, char **env)
 			return (0);
 		tokens = _split_line(line);
 		_execute(tokens, av);
-		_free_tokens(tokens);
 		free(line);
 		if (!interactive)
 			break;

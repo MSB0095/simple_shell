@@ -2,6 +2,7 @@
 
 /**
  * _read_line - reads the line
+ * Return: the line
 */
 
 char *_read_line(void)

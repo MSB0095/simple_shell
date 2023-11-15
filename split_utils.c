@@ -6,21 +6,21 @@
 
 int isspace(int c)
 {
-    return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f';
+	return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\v' || c == '\f';
 }
 
 char *_strncpy(char *dest, const char *src, size_t n)
 {
-    size_t i;
-    for (i = 0; i < n && src[i] != '\0'; i++)
-    {
-        dest[i] = src[i];
-    }
-    for (; i < n; i++)
-    {
-        dest[i] = '\0';
-    }
-    return dest;
+	size_t i;
+	for (i = 0; i < n && src[i] != '\0'; i++)
+	{
+		dest[i] = src[i];
+	}
+	for (; i < n; i++)
+	{
+		dest[i] = '\0';
+	}
+	return dest;
 }
 
 char *_trim(char *str)
@@ -37,12 +37,12 @@ char *_trim(char *str)
     start = 0;
     end = len - 1;
 
-    while (start < len && isspace(str[start]))
+    while (start < len && (isspace(str[start]) || str[start] == '"' || str[start] == '\''))
     {
         start++;
     }
 
-    while (end > start && isspace(str[end]))
+    while (end > start && (isspace(str[end]) || str[end] == '"' || str[end] == '\''))
     {
         end--;
     }

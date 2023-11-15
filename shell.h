@@ -10,6 +10,7 @@
 
 #define BUFSIZE 1024
 #define PATH_MAX 1024
+#define BUFFER_SIZE 64
 
 extern char **environ;
 void prompt(void);
@@ -49,5 +50,17 @@ int _builtin_unsetenv(const char *name);
 void _builtin_exit(char **tokens);
 char *_getenv(const char *name);
 char *_strtok(char *str, const char *delim);
-
+char **allocate_token(char **tokens, char *token, int i);
+char **handle_quotes(char **tokens, char *token, int *i, int *size);
+char **handle_no_quotes(char **tokens, char *token, int *i, int *size);
+char **allocate_token(char **tokens, char *token, int i);
+char **handle_quotes(char **tokens, char *token, int *i, int *size);
+char **handle_no_quotes(char **tokens, char *token, int *i, int *size);
+char *_trim_quotes(char *str);
+char *_strndup(const char *s, size_t n);
+void *_memmove(void *dest, const void *src, size_t n);
+void _putserr(char *str);
+int _putcharerr(char c);
+void _puts2err(char *str);
+int is_special_character(char c);
 #endif

@@ -1,103 +1,45 @@
 #include "shell.h"
-
+#define MAX_TOKEN_SIZE 100
 /**
  * TODO
 */
 
 char **_split_line(char *line)
 {
-    const char *delim = " \t\n";
-    char **tokens = NULL;
-    char *token;
-    int i = 0;
-    int size = 1;
-    char **temp;
-    int in_quotes = 0;
-	char *trimmed_token;
+    int bufsize = MAX_TOKEN_SIZE, position = 0;
+    char **tokens = malloc(bufsize * sizeof(char*));
+    char *token, **tokens_backup;
 
-    tokens = malloc(sizeof(char *) * size);
-    if (tokens == NULL)
-    {
-        return (NULL);
+    if (!tokens) {
+        fprintf(stderr, "lsh: allocation error\n");
+        exit(EXIT_FAILURE);
     }
 
-    token = strtok(line, delim);
-    if (token != NULL && token[0] == '#')
-    {
-        free(tokens);
-        return (NULL);
-    }
+    token = strtok(line, " \t\r\n\a");
+    while (token != NULL) {
+        tokens[position] = _trim(strdup(token));
+        position++;
 
-    while (token != NULL)
-    {
-        if (token[0] == '"' || token[0] == '\'')
-        {
-            if (in_quotes)
-            {
-                in_quotes = 0;
-            }
-            else
-            {
-                in_quotes = 1;
+        if (position >= bufsize) {
+            bufsize += MAX_TOKEN_SIZE;
+            tokens_backup = tokens;
+            tokens = realloc(tokens, bufsize * sizeof(char*));
+            if (!tokens) {
+                free(tokens_backup);
+                fprintf(stderr, "lsh: allocation error\n");
+                exit(EXIT_FAILURE);
             }
         }
 
-        if (in_quotes)
-        {
-            temp = _realloc(tokens, sizeof(char *) * (i + 2));
-            if (temp == NULL)
-            {
-                _free_tokens(tokens);
-                return (NULL);
-            }
-
-            tokens = temp;
-            tokens[i] = malloc(_strlen(token) + 1);
-            if (tokens[i] == NULL)
-            {
-                _free_tokens(tokens);
-                return (NULL);
-            }
-
-            _strcpy(tokens[i], token);
-            tokens[i + 1] = NULL;
-
-            i++;
-            size++;
-        }
-        else
-        {
-            trimmed_token = _trim(token);
-            if (_strlen(trimmed_token) > 0)
-            {
-                temp = _realloc(tokens, sizeof(char *) * (i + 2));
-                if (temp == NULL)
-                {
-                    _free_tokens(tokens);
-                    return (NULL);
-                }
-
-                tokens = temp;
-                tokens[i] = malloc(_strlen(trimmed_token) + 1);
-                if (tokens[i] == NULL)
-                {
-                    _free_tokens(tokens);
-                    return (NULL);
-                }
-
-                _strcpy(tokens[i], trimmed_token);
-                tokens[i + 1] = NULL;
-
-                i++;
-                size++;
-            }
-            free(trimmed_token);
-        }
-
-        token = strtok(NULL, delim);
+        token = strtok(NULL, " \t\r\n\a");
     }
+    tokens[position] = NULL;
+    return tokens;
+}
 
-    return (tokens);
+int is_special_character(char c)
+{
+    return c == ';' || c == '&' || c == '|';
 }
 /**
  * TODO

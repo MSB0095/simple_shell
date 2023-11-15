@@ -2,7 +2,7 @@
 
 /**
  * prompt - prints the prompt
- * 
+ *
  */
 void prompt(void)
 {

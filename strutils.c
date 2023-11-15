@@ -8,7 +8,21 @@ int _putchar(char c)
 {
 	return (write(1, &c, 1));
 }
+int _putcharerr(char c)
+{
+	return (write(2, &c, 1));
+}
+void _putserr(char *str)
+{
+	int i = 0;
 
+	while (str[i] != '\0')
+	{
+		_putcharerr(str[i]);
+		i++;
+	}
+	_putcharerr('\n');
+}
 /**
  * TODO
 */
@@ -104,12 +118,12 @@ char *_strdup(char *str)
 
 int _strlen(const char *s)
 {
-    int len = 0;
-    while (s[len] != '\0')
-    {
-        len++;
-    }
-    return len;
+	int len = 0;
+	while (s[len] != '\0')
+	{
+		len++;
+	}
+	return len;
 }
 
 /**
@@ -187,19 +201,19 @@ int _strcmp(char *s1, char *s2)
 
 int _strncmp(const char *s1, const char *s2, size_t n)
 {
-    size_t i;
+	size_t i;
 	for (i = 0; i < n; i++)
-    {
-        if (s1[i] != s2[i])
-        {
-            return (s1[i] - s2[i]);
-        }
-        else if (s1[i] == '\0')
-        {
-            return 0;
-        }
-    }
-    return 0;
+	{
+		if (s1[i] != s2[i])
+		{
+			return (s1[i] - s2[i]);
+		}
+		else if (s1[i] == '\0')
+		{
+			return 0;
+		}
+	}
+	return 0;
 }
 
 /**
@@ -245,4 +259,17 @@ int _atoi(char *s)
 		return (0);
 
 	return (n);
+}
+
+char *_strndup(const char *s, size_t n)
+{
+    char *result;
+    size_t len = strnlen (s, n);
+
+    result = (char *) malloc (len + 1);
+    if (!result)
+        return 0;
+
+    result[len] = '\0';
+    return (char *) memcpy (result, s, len);
 }
