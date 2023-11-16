@@ -8,35 +8,34 @@ char **_split_line(char *line)
 {
     int bufsize = MAX_TOKEN_SIZE, position = 0;
     char **tokens = malloc(bufsize * sizeof(char*));
-    char *token, **tokens_backup;
+    char *token;
+	char *tokendup;
+	char *trimmed_token;
 
     if (!tokens) {
-        fprintf(stderr, "lsh: allocation error\n");
         exit(EXIT_FAILURE);
     }
 
-    token = strtok(line, " \t\r\n\a");
-    while (token != NULL) {
-        tokens[position] = _trim(strdup(token));
-        position++;
+	token = _strtok(line, " \t\r\n\a");
+	while (token != NULL)
+	{
+		if (token && token[0] != '\0')
+		{
+            tokendup = _strdup(token);
+            trimmed_token = _trim(tokendup);
+            tokens[position] = trimmed_token;
+            free(tokendup);
+			position++;
+		}
 
-        if (position >= bufsize) {
-            bufsize += MAX_TOKEN_SIZE;
-            tokens_backup = tokens;
-            tokens = realloc(tokens, bufsize * sizeof(char*));
-            if (!tokens) {
-                free(tokens_backup);
-                fprintf(stderr, "lsh: allocation error\n");
-                exit(EXIT_FAILURE);
-            }
-        }
-
-        token = strtok(NULL, " \t\r\n\a");
-    }
+		token = _strtok(NULL, " \t\r\n\a");
+	}
     tokens[position] = NULL;
     return tokens;
 }
-
+/**
+ * TODO
+*/
 int is_special_character(char c)
 {
     return c == ';' || c == '&' || c == '|';
@@ -46,13 +45,11 @@ int is_special_character(char c)
 */
 void _free_tokens(char **tokens)
 {
-	int i = 0;
-
-	if (tokens == NULL)
-		return;
-	for (i = 0; tokens[i] != NULL; i++)
-	{
-		free(tokens[i]);
-	}
-	free(tokens);
+    int i = 0;
+    while (tokens[i] != NULL)
+    {
+        free(tokens[i]);
+        i++;
+    }
+    free(tokens);
 }

@@ -20,12 +20,16 @@ int main(int ac, char **av, char **env)
 		line = interactive ? _read_line() : _read_command(ac, av);
 		if (line == NULL)
 			return (0);
-		tokens = _split_line(line);
-		_execute(tokens, av);
-		free(line);
+		if (line[0] != '\n' && line[0] != '\0')
+		{
+			tokens = _split_line(line);
+			free(line);
+			_execute(tokens, av);
+			_free_tokens(tokens);
+		}
+
 		if (!interactive)
 			break;
 	}
-
 	return (0);
 }

@@ -8,22 +8,45 @@
  * Return: the number of characters read
 */
 
-int _getline(char **lineptr, size_t *n, FILE *stream)
+int _getline(char **lineptr, size_t *n)
 {
-	char *line = NULL;
-	size_t bufsize;
-	ssize_t read;
+    char *line = NULL;
+    size_t bufsize = BUFSIZE;
+    ssize_t num_read;
+    size_t index = 0;
 
-	bufsize = BUFSIZE;
-	read = getline(&line, &bufsize, stream);
-	if (read == -1)
-	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "\n", 1);
-		free(line);
-		exit(EXIT_SUCCESS);
-	}
-	*lineptr = line;
-	*n = bufsize;
-	return (read);
+    line = malloc(bufsize * sizeof(char));
+    if (line == NULL)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    while (1)
+    {
+        num_read = read(STDIN_FILENO, &line[index], 1);
+        if (num_read == -1)
+        {
+            free(line);
+            exit(EXIT_FAILURE);
+        }
+        if (line[index] == '\n' || num_read == 0)
+        {
+            line[index] = '\0';
+            break;
+        }
+        index++;
+        if (index >= bufsize)
+        {
+            bufsize += BUFSIZE;
+            line = _realloc(line, bufsize * sizeof(char));
+            if (line == NULL)
+            {
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    *lineptr = line;
+    *n = bufsize;
+    return index;
 }

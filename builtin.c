@@ -116,7 +116,7 @@ int _builtin_setenv(const char *name, const char *value, int overwrite)
 		free(env_var);
 		return (-1);
 	}
-
+	free(env_var);
 	return (0);
 }
 
