@@ -36,7 +36,7 @@ char *_trim(char *str);
 void *_realloc(void *ptr, size_t size);
 void *_memcpy(void *dest, const void *src, size_t n);
 void _free_tokens(char **tokens);
-char *_read_command(int ac, char **av);
+ssize_t _read_command(int ac, char **av, char **line);
 void _execute(char **tokens, char **argv);
 void _execute_from_path(char **tokens, char **argv);
 int _is_executable(char *command);
