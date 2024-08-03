@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <signal.h>
+#include "signals.h"
 #include <fcntl.h>
 
 #define BUFSIZE 1024
@@ -63,4 +63,5 @@ void _putserr(char *str);
 int _putcharerr(char c);
 void _puts2err(char *str);
 int is_special_character(char c);
+
 #endif

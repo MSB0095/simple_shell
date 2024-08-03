@@ -9,15 +9,22 @@
  */
 ssize_t _read_command(int ac, char **av, char **line)
 {
+	size_t len = 0;
+	ssize_t read;
+
 	if (ac > 1)
 	{
 		*line = _strdup(av[1]);
 		if (*line == NULL)
 		{
-			_putserr("Error: strdup failed");
+			_putserr("strdup");
 			return (-1);
 		}
 		return (_strlen(*line));
 	}
-	return (-1);
+	else
+	{
+		read = _getline(line, &len);
+		return (read);
+	}
 }
