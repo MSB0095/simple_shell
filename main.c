@@ -28,6 +28,11 @@ int main(int ac, char **av, char **env)
 		{
 			tokens = _split_line(line);
 			free(line);
+			if (tokens == NULL)
+			{
+				fprintf(stderr, "Error: Failed to split line\n");
+				continue;
+			}
 			_execute(tokens, av);
 			_free_tokens(tokens);
 		}
