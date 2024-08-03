@@ -12,6 +12,7 @@
 #define PATH_MAX 1024
 #define BUFFER_SIZE 64
 
+int is_whitespace_or_quote(char c);
 extern char **environ;
 void prompt(void);
 char *_read_line(void);

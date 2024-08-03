@@ -1,55 +1,62 @@
 #include "shell.h"
 #define MAX_TOKEN_SIZE 100
 /**
- * TODO
-*/
+ * _split_line - Split a line into tokens
+ * @line: The line to split
+ * Return: An array of tokens
+ */
 
 char **_split_line(char *line)
 {
-    int bufsize = MAX_TOKEN_SIZE, position = 0;
-    char **tokens = malloc(bufsize * sizeof(char*));
-    char *token;
+	int bufsize = MAX_TOKEN_SIZE, position = 0;
+	char **tokens = malloc(bufsize * sizeof(char *));
+	char *token;
 	char *tokendup;
 	char *trimmed_token;
 
-    if (!tokens) {
-        exit(EXIT_FAILURE);
-    }
+	if (!tokens)
+	{
+		exit(EXIT_FAILURE);
+	}
 
 	token = _strtok(line, " \t\r\n\a");
 	while (token != NULL)
 	{
 		if (token && token[0] != '\0')
 		{
-            tokendup = _strdup(token);
-            trimmed_token = _trim(tokendup);
-            tokens[position] = trimmed_token;
-            free(tokendup);
+			tokendup = _strdup(token);
+			trimmed_token = _trim(tokendup);
+			tokens[position] = trimmed_token;
+			free(tokendup);
 			position++;
 		}
 
 		token = _strtok(NULL, " \t\r\n\a");
 	}
-    tokens[position] = NULL;
-    return tokens;
+	tokens[position] = NULL;
+	return (tokens);
 }
 /**
- * TODO
-*/
+ * is_special_character - Check if a character is a special character
+ * @c: The character to check
+ * Return: 1 if the character is special, 0 otherwise
+ */
 int is_special_character(char c)
 {
-    return c == ';' || c == '&' || c == '|';
+	return (c == ';' || c == '&' || c == '|');
 }
 /**
- * TODO
-*/
+ * _free_tokens - Free an array of tokens
+ * @tokens: The array of tokens to free
+ */
 void _free_tokens(char **tokens)
 {
-    int i = 0;
-    while (tokens[i] != NULL)
-    {
-        free(tokens[i]);
-        i++;
-    }
-    free(tokens);
+	int i = 0;
+
+	while (tokens[i] != NULL)
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
 }

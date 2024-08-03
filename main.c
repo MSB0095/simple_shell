@@ -1,8 +1,12 @@
 #include "shell.h"
 
 /**
- * TODO
-*/
+ * main - Entry point
+ * @ac: Argument count
+ * @av: Argument vector
+ * @env: Environment variables
+ * Return: 0 on success
+ */
 
 int main(int ac, char **av, char **env)
 {
