@@ -34,7 +34,7 @@ int main(int ac, char **av, char **env)
 			tokens = _split_line(line);
 			if (tokens == NULL)
 			{
-				fprintf(stderr, "Error: Failed to split line\n");
+				_putserr("Error: Failed to split line");
 				free(line);
 				continue;
 			}
